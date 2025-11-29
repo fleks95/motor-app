@@ -3,11 +3,13 @@
 ## Setup
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Create `.env` file:
+
 ```bash
 cp .env.example .env
 ```
@@ -18,6 +20,7 @@ cp .env.example .env
    - Copy your project URL and keys to `.env`
 
 4. Create database tables (run in Supabase SQL Editor):
+
 ```sql
 -- Users table
 CREATE TABLE users (
@@ -37,6 +40,7 @@ CREATE INDEX idx_users_username ON users(username);
 ```
 
 5. Start development server:
+
 ```bash
 npm run dev
 ```
@@ -46,11 +50,13 @@ npm run dev
 Base URL: `http://localhost:3000/api/v1`
 
 ### Authentication
+
 - `POST /auth/register` - Register new user
 - `POST /auth/login` - Login
 - `POST /auth/logout` - Logout
 
 ### Users
+
 - `GET /users/me` - Get current user (requires auth)
 - `PUT /users/me` - Update profile (requires auth)
 - `GET /users/:id` - Get user by ID (requires auth)

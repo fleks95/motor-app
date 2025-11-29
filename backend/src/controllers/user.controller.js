@@ -7,7 +7,7 @@ class UserController {
 
       res.json({
         success: true,
-        data: user
+        data: user,
       });
     } catch (error) {
       next(error);
@@ -21,7 +21,7 @@ class UserController {
 
       res.json({
         success: true,
-        data: user
+        data: user,
       });
     } catch (error) {
       next(error);
@@ -35,7 +35,7 @@ class UserController {
 
       res.json({
         success: true,
-        data: user
+        data: user,
       });
     } catch (error) {
       next(error);

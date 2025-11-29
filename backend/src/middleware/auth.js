@@ -5,14 +5,14 @@ const authMiddleware = async (req, res, next) => {
   try {
     // Get token from Authorization header
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
         error: {
           code: 'UNAUTHORIZED',
-          message: 'No token provided'
-        }
+          message: 'No token provided',
+        },
       });
     }
 
@@ -20,11 +20,11 @@ const authMiddleware = async (req, res, next) => {
 
     // Verify token
     const decoded = jwt.verify(token, config.jwt.secret);
-    
+
     // Attach user info to request
     req.user = {
       id: decoded.userId,
-      email: decoded.email
+      email: decoded.email,
     };
 
     next();
@@ -34,18 +34,18 @@ const authMiddleware = async (req, res, next) => {
         success: false,
         error: {
           code: 'INVALID_TOKEN',
-          message: 'Invalid token'
-        }
+          message: 'Invalid token',
+        },
       });
     }
-    
+
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({
         success: false,
         error: {
           code: 'TOKEN_EXPIRED',
-          message: 'Token has expired'
-        }
+          message: 'Token has expired',
+        },
       });
     }
 

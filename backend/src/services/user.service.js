@@ -23,7 +23,7 @@ class UserService {
     const filteredUpdates = {};
 
     // Only allow updating specific fields
-    Object.keys(updates).forEach(key => {
+    Object.keys(updates).forEach((key) => {
       if (allowedFields.includes(key) && updates[key] !== undefined) {
         filteredUpdates[key] = updates[key];
       }

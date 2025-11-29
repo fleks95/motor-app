@@ -5,11 +5,13 @@
 You'll need to install Node.js before you can run this project:
 
 1. **Download Node.js**:
+
    - Go to https://nodejs.org/
    - Download the **LTS version** (recommended for most users)
    - Current LTS is v20.x
 
 2. **Install Node.js**:
+
    - Run the installer you downloaded
    - Follow the installation prompts
    - Make sure "Add to PATH" is checked
@@ -49,6 +51,7 @@ cp .env.example .env
 ```
 
 Edit `backend/.env` and add your Supabase credentials:
+
 ```
 SUPABASE_URL=https://xxxxx.supabase.co
 SUPABASE_ANON_KEY=your-anon-key
@@ -57,6 +60,7 @@ JWT_SECRET=change-this-to-a-random-string-at-least-32-characters-long
 ```
 
 Create the database table in Supabase:
+
 1. Go to Supabase Dashboard > SQL Editor
 2. Run this SQL:
 
@@ -78,23 +82,25 @@ CREATE INDEX idx_users_username ON users(username);
 ```
 
 Start the backend:
+
 ```bash
 npm run dev
 ```
 
 Backend will run on http://localhost:3000
 
-### 3. Setup Mobile App
+### 3. Setup Frontend App
 
 ```bash
-cd mobile
+cd frontend
 npm install
 cp .env.example .env
 ```
 
-Edit `mobile/.env` with your Supabase credentials (same as backend).
+Edit `frontend/.env` with your Supabase credentials (same as backend).
 
 Start the app:
+
 ```bash
 npm start
 ```
@@ -114,7 +120,7 @@ motoR/
 │   │   └── config/
 │   └── server.js
 │
-├── mobile/            # React Native (Expo) app
+├── frontend/          # React Native (Expo) app - Web, iOS, Android
 │   ├── app/           # Screens (login, register, home)
 │   ├── src/
 │   │   ├── contexts/  # Auth state management
@@ -150,7 +156,7 @@ motoR/
 ## Testing the App
 
 1. Start backend: `cd backend && npm run dev`
-2. Start mobile: `cd mobile && npm start` (then press `w` for web)
+2. Start frontend: `cd frontend && npm start` (then press `w` for web)
 3. Create an account on the register screen
 4. Log in with your new account
 5. You'll see a welcome screen (placeholder for future features)
@@ -158,39 +164,44 @@ motoR/
 ## Troubleshooting
 
 ### Node.js not found
+
 - Make sure you installed Node.js and restarted your terminal/computer
 - Try running in a completely new terminal window
 
 ### Port already in use
-- Backend uses port 3000, mobile uses 8081
+
+- Backend uses port 3000, frontend uses 8081
 - If either is in use, you can change them in the config files
 
 ### Cannot connect to backend from phone
+
 - If testing on a physical device (not web)
-- Change `localhost` in `mobile/.env` to your computer's IP address
+- Change `localhost` in `frontend/.env` to your computer's IP address
 - Find your IP: `ipconfig` (Windows) or `ifconfig` (Mac/Linux)
 
 ### Supabase errors
+
 - Double-check your credentials in both `.env` files
 - Make sure you created the `users` table in Supabase SQL Editor
 
 ## Development Workflow
 
-1. Backend runs on http://localhost:3000
-2. Mobile dev server runs on http://localhost:8081
+1. Backend API runs on http://localhost:3000
+2. Frontend dev server runs on http://localhost:8081
 3. Make changes to files - they hot-reload automatically
 4. Backend needs manual restart if you change `.env` file
 
 ## Deployment (Future)
 
 See `ARCHITECTURE.md` for detailed deployment plans:
+
 - Backend: Local server (24/7)
-- Mobile: App Store + Google Play
-- Web: Can be hosted on Vercel/Netlify or served from backend
+- Frontend: App Store + Google Play (mobile) + Vercel/Netlify (web)
+- Web can also be served from backend
 
 ## Need Help?
 
 - Check `backend/README.md` for backend-specific details
-- Check `mobile/README.md` for mobile-specific details
+- Check `frontend/README.md` for frontend-specific details
 - Review `docs/ARCHITECTURE.md` for technical deep dive
 - Review `docs/PRD.md` for product features and roadmap

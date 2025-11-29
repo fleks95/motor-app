@@ -12,8 +12,8 @@ class AuthController {
           error: {
             code: 'VALIDATION_ERROR',
             message: 'Invalid input',
-            details: errors.array()
-          }
+            details: errors.array(),
+          },
         });
       }
 
@@ -23,7 +23,7 @@ class AuthController {
 
       res.status(201).json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       next(error);
@@ -40,8 +40,8 @@ class AuthController {
           error: {
             code: 'VALIDATION_ERROR',
             message: 'Invalid input',
-            details: errors.array()
-          }
+            details: errors.array(),
+          },
         });
       }
 
@@ -51,7 +51,7 @@ class AuthController {
 
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error) {
       next(error);
@@ -64,7 +64,7 @@ class AuthController {
       // In the future, we could implement token blacklisting here
       res.json({
         success: true,
-        message: 'Logged out successfully'
+        message: 'Logged out successfully',
       });
     } catch (error) {
       next(error);

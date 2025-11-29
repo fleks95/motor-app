@@ -46,8 +46,8 @@ class AuthService {
           email,
           password_hash: passwordHash,
           full_name: fullName,
-          username: username || null
-        }
+          username: username || null,
+        },
       ])
       .select('id, email, full_name, username, avatar_url, created_at')
       .single();
@@ -65,10 +65,10 @@ class AuthService {
         email: user.email,
         full_name: user.full_name,
         username: user.username,
-        avatar_url: user.avatar_url
+        avatar_url: user.avatar_url,
       },
       token,
-      expiresIn: 86400 // 24 hours in seconds
+      expiresIn: 3600, // 1 hour in seconds
     };
   }
 
@@ -106,19 +106,15 @@ class AuthService {
         email: user.email,
         full_name: user.full_name,
         username: user.username,
-        avatar_url: user.avatar_url
+        avatar_url: user.avatar_url,
       },
       token,
-      expiresIn: 86400 // 24 hours in seconds
+      expiresIn: 3600, // 1 hour in seconds
     };
   }
 
   generateToken(userId, email) {
-    return jwt.sign(
-      { userId, email },
-      config.jwt.secret,
-      { expiresIn: config.jwt.expiresIn }
-    );
+    return jwt.sign({ userId, email }, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
   }
 }
 

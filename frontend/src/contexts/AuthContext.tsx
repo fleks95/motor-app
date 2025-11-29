@@ -18,30 +18,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Initialize auth on app start
-    console.log('AuthContext: Initializing auth...');
     authService.initializeAuth().then((user) => {
-      console.log('AuthContext: Init complete, user:', user);
       setUser(user);
       setIsLoading(false);
     });
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    console.log('AuthContext: Login called');
     const user = await authService.login(credentials);
-    console.log('AuthContext: Login successful, setting user:', user);
     setUser(user);
   };
 
   const register = async (data: RegisterData) => {
-    console.log('AuthContext: Register called');
     const user = await authService.register(data);
-    console.log('AuthContext: Register successful, setting user:', user);
     setUser(user);
   };
 
   const logout = async () => {
-    console.log('AuthContext: Logout called');
     await authService.logout();
     setUser(null);
   };

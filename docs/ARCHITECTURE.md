@@ -32,12 +32,14 @@ This document describes the technical architecture for the motoR motorcycle rout
 **Framework:** React Native (Expo)
 
 **Rationale:**
+
 - Single codebase for iOS, Android, and Web
 - Large ecosystem and community support
 - Expo simplifies development and deployment
 - Built-in support for navigation, maps, camera, etc.
 
 **Key Dependencies:**
+
 - `expo` - SDK and development tools
 - `react-navigation` - Navigation library
 - `react-native-maps` (future) - Map integration
@@ -45,6 +47,7 @@ This document describes the technical architecture for the motoR motorcycle rout
 - `@supabase/supabase-js` - Database and auth client
 
 **UI Framework:**
+
 - React Native Paper or NativeBase (TBD with designer)
 - Custom components as needed
 
@@ -53,12 +56,14 @@ This document describes the technical architecture for the motoR motorcycle rout
 **Framework:** Node.js + Express
 
 **Rationale:**
+
 - JavaScript across full stack (easier context switching)
 - Large ecosystem of packages
 - Good performance for I/O-bound operations
 - Easy to deploy and maintain
 
 **Key Dependencies:**
+
 - `express` - Web framework
 - `@supabase/supabase-js` - Supabase client
 - `jsonwebtoken` - JWT token generation/verification
@@ -73,6 +78,7 @@ This document describes the technical architecture for the motoR motorcycle rout
 **Database:** PostgreSQL via Supabase
 
 **Rationale:**
+
 - Free tier includes 500 MB database + 2 GB bandwidth
 - Built-in authentication system
 - Real-time subscriptions (future feature)
@@ -81,6 +87,7 @@ This document describes the technical architecture for the motoR motorcycle rout
 - Hosted, managed service (no server maintenance)
 
 **Alternative Considered:**
+
 - MongoDB Atlas - Good, but PostgreSQL better for relational data (routes, users, relationships)
 
 ### 3.4 Authentication
@@ -88,6 +95,7 @@ This document describes the technical architecture for the motoR motorcycle rout
 **Strategy:** JWT (JSON Web Tokens) + Supabase Auth
 
 **Flow:**
+
 1. User submits email/password to backend
 2. Backend validates credentials via Supabase
 3. Backend generates JWT token
@@ -96,6 +104,7 @@ This document describes the technical architecture for the motoR motorcycle rout
 6. Backend verifies token on protected routes
 
 **Token Storage:**
+
 - Mobile: Expo SecureStore
 - Web: HttpOnly cookies (preferred) or localStorage
 
@@ -136,7 +145,7 @@ This document describes the technical architecture for the motoR motorcycle rout
 ### 4.2 Frontend Architecture
 
 ```
-mobile/
+frontend/
 ├── app/                    # Expo Router (file-based routing)
 │   ├── (auth)/
 │   │   ├── login.tsx      # Login screen
@@ -199,6 +208,7 @@ backend/
 ### 5.1 Database Schema (PostgreSQL)
 
 #### Users Table
+
 ```sql
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -217,6 +227,7 @@ CREATE INDEX idx_users_username ON users(username);
 ```
 
 #### Routes Table (Future)
+
 ```sql
 CREATE TABLE routes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -237,6 +248,7 @@ CREATE INDEX idx_routes_public ON routes(is_public);
 ```
 
 #### Sessions Table (Optional - for token blacklisting)
+
 ```sql
 CREATE TABLE sessions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -253,6 +265,7 @@ CREATE INDEX idx_sessions_expires_at ON sessions(expires_at);
 ### 5.2 API Data Transfer Objects (DTOs)
 
 #### Authentication DTOs
+
 ```typescript
 // Login Request
 interface LoginRequest {
@@ -326,6 +339,7 @@ GET    /routes/search     # Search routes
 #### POST /auth/login
 
 **Request:**
+
 ```json
 {
   "email": "rider@example.com",
@@ -334,6 +348,7 @@ GET    /routes/search     # Search routes
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -352,6 +367,7 @@ GET    /routes/search     # Search routes
 ```
 
 **Response (401 Unauthorized):**
+
 ```json
 {
   "success": false,
@@ -367,7 +383,7 @@ GET    /routes/search     # Search routes
 1. User enters email/password on login screen
 2. Frontend sends POST to `/api/v1/auth/login`
 3. Backend validates credentials against Supabase
-4. Backend generates JWT token (24h expiry)
+4. Backend generates JWT token (1h expiry)
 5. Backend returns user data + token
 6. Frontend stores token securely
 7. Frontend includes token in subsequent requests: `Authorization: Bearer <token>`
@@ -381,7 +397,7 @@ GET    /routes/search     # Search routes
 
 - Passwords hashed with bcrypt (cost factor: 12)
 - JWT tokens signed with strong secret (256-bit minimum)
-- Token expiration: 24 hours (configurable)
+- Token expiration: 1 hour (configurable)
 - Refresh tokens for extended sessions (future)
 - Rate limiting on auth endpoints (5 requests/minute)
 
@@ -416,6 +432,7 @@ GET    /routes/search     # Search routes
 ### 8.2 Production Deployment (Future)
 
 #### Backend
+
 - **Server:** Local server (user's machine) running 24/7
 - **OS:** Linux (Ubuntu) recommended, or Windows Server
 - **Process Manager:** PM2 for auto-restart
@@ -423,12 +440,14 @@ GET    /routes/search     # Search routes
 - **SSL:** Let's Encrypt (free certificates)
 - **Port:** Backend on 3000, Nginx on 80/443
 
-#### Frontend (Mobile)
+#### Frontend
+
 - **iOS:** Submit to App Store via Expo EAS Build
 - **Android:** Submit to Google Play via Expo EAS Build
 - **Web:** Build static bundle, serve via Nginx or deploy to Vercel/Netlify
 
 #### Database
+
 - **Supabase:** Cloud-hosted, no deployment needed
 - Monitor usage, upgrade tier if needed
 
@@ -531,11 +550,13 @@ GET    /routes/search     # Search routes
 ## 13. Scalability Considerations
 
 ### 13.1 Current Scale (MVP)
+
 - 100-1,000 users
 - Supabase free tier sufficient
 - Single backend server
 
 ### 13.2 Future Scale (Growth)
+
 - 10,000+ users
 - Upgrade Supabase tier or migrate to managed PostgreSQL
 - Load balancer + multiple backend instances
@@ -546,14 +567,15 @@ GET    /routes/search     # Search routes
 
 ## 14. Dependencies & Third-Party Services
 
-| Service | Purpose | Cost |
-|---------|---------|------|
-| Supabase | Database + Auth | Free (500 MB DB) |
-| Expo | Mobile development | Free (EAS Build has limits) |
-| Let's Encrypt | SSL certificates | Free |
-| GitHub | Code hosting | Free |
+| Service       | Purpose            | Cost                        |
+| ------------- | ------------------ | --------------------------- |
+| Supabase      | Database + Auth    | Free (500 MB DB)            |
+| Expo          | Mobile development | Free (EAS Build has limits) |
+| Let's Encrypt | SSL certificates   | Free                        |
+| GitHub        | Code hosting       | Free                        |
 
 **Future:**
+
 - Google Maps API (or Mapbox) for mapping
 - AWS S3 / Cloudinary for image hosting
 - Sentry for error tracking
@@ -574,11 +596,13 @@ GET    /routes/search     # Search routes
 ## 16. Migration & Versioning
 
 ### API Versioning
+
 - Version in URL: `/api/v1/`
 - Maintain backward compatibility for at least 6 months
 - Deprecation warnings in responses
 
 ### Database Migrations
+
 - Use migration tool (e.g., node-pg-migrate or Supabase migrations)
 - Version control all migrations
 - Test migrations on staging before production
@@ -590,6 +614,7 @@ GET    /routes/search     # Search routes
 ### 17.1 Environment Variables
 
 #### Backend (.env)
+
 ```
 NODE_ENV=development
 PORT=3000
@@ -597,11 +622,12 @@ SUPABASE_URL=https://xxxxx.supabase.co
 SUPABASE_ANON_KEY=xxxxx
 SUPABASE_SERVICE_KEY=xxxxx
 JWT_SECRET=your-secret-key-256-bit
-JWT_EXPIRES_IN=24h
+JWT_EXPIRES_IN=1h
 CORS_ORIGIN=http://localhost:8081
 ```
 
 #### Frontend (.env)
+
 ```
 EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
 EXPO_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co

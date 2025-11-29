@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../src/contexts/AuthContext';
 
@@ -8,7 +16,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const { login } = useAuth();
   const router = useRouter();
 
@@ -22,20 +30,16 @@ export default function LoginScreen() {
     setError('');
     try {
       await login({ email, password });
-      
-      console.log('Login successful, redirecting...');
-      
-      // Redirect immediately
       router.replace('/(tabs)/home');
-    } catch (error: any) {
-      setError(error.message || 'Invalid email or password');
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Invalid email or password');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
@@ -71,23 +75,21 @@ export default function LoginScreen() {
             editable={!isLoading}
           />
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.button, isLoading && styles.buttonDisabled]}
             onPress={handleLogin}
             disabled={isLoading}
           >
-            <Text style={styles.buttonText}>
-              {isLoading ? 'Logging in...' : 'Log In'}
-            </Text>
+            <Text style={styles.buttonText}>{isLoading ? 'Logging in...' : 'Log In'}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.linkButton}
             onPress={() => router.push('/register')}
             disabled={isLoading}
           >
             <Text style={styles.linkText}>
-              Don't have an account? <Text style={styles.linkTextBold}>Sign up</Text>
+              Don&apos;t have an account? <Text style={styles.linkTextBold}>Sign up</Text>
             </Text>
           </TouchableOpacity>
         </View>

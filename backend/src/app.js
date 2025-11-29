@@ -12,10 +12,12 @@ const app = express();
 app.use(helmet());
 
 // CORS configuration
-app.use(cors({
-  origin: config.corsOrigin,
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: config.corsOrigin,
+    credentials: true,
+  })
+);
 
 // Body parsing middleware
 app.use(express.json());
@@ -36,8 +38,8 @@ app.use((req, res) => {
     success: false,
     error: {
       code: 'NOT_FOUND',
-      message: 'Route not found'
-    }
+      message: 'Route not found',
+    },
   });
 });
 

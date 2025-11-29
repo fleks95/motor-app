@@ -16,12 +16,12 @@ const rateLimiterMiddleware = (limiter) => async (req, res, next) => {
       success: false,
       error: {
         code: 'RATE_LIMIT_EXCEEDED',
-        message: 'Too many requests. Please try again later.'
-      }
+        message: 'Too many requests. Please try again later.',
+      },
     });
   }
 };
 
 module.exports = {
-  authRateLimiter: rateLimiterMiddleware(authLimiter)
+  authRateLimiter: rateLimiterMiddleware(authLimiter),
 };

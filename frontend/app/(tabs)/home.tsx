@@ -9,10 +9,9 @@ export default function HomeScreen() {
   const handleLogout = async () => {
     try {
       await logout();
-      console.log('Logout successful, redirecting...');
       router.replace('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch {
+      // Silently handle logout errors
     }
   };
 
@@ -25,12 +24,10 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to motoR!</Text>
       <Text style={styles.subtitle}>Hello, {user?.full_name || 'Rider'}!</Text>
-      
+
       <View style={styles.placeholder}>
         <Text style={styles.placeholderText}>🏍️</Text>
-        <Text style={styles.placeholderSubtext}>
-          Your motorcycle routes will appear here
-        </Text>
+        <Text style={styles.placeholderSubtext}>Your motorcycle routes will appear here</Text>
       </View>
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>

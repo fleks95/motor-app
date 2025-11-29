@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../src/contexts/AuthContext';
 
@@ -10,7 +19,7 @@ export default function RegisterScreen() {
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const { register } = useAuth();
   const router = useRouter();
 
@@ -28,23 +37,21 @@ export default function RegisterScreen() {
     setIsLoading(true);
     setError('');
     try {
-      await register({ 
-        email, 
-        password, 
+      await register({
+        email,
+        password,
         full_name: fullName,
-        username: username || undefined
+        username: username || undefined,
       });
-      
-      console.log('Registration successful, redirecting...');
       router.replace('/(tabs)/home');
-    } catch (error: any) {
-      setError(error.message || 'Unable to create account');
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'Unable to create account');
       setIsLoading(false);
     }
   };
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
@@ -99,17 +106,15 @@ export default function RegisterScreen() {
               editable={!isLoading}
             />
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.button, isLoading && styles.buttonDisabled]}
               onPress={handleRegister}
               disabled={isLoading}
             >
-              <Text style={styles.buttonText}>
-                {isLoading ? 'Creating Account...' : 'Sign Up'}
-              </Text>
+              <Text style={styles.buttonText}>{isLoading ? 'Creating Account...' : 'Sign Up'}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.linkButton}
               onPress={() => router.back()}
               disabled={isLoading}

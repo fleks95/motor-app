@@ -1,0 +1,39 @@
+{
+  "name": "motor",
+  "version": "1.0.0",
+  "description": "A cross-platform application for discovering, planning, and sharing motorcycle routes.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "npm run test --prefix backend && cd frontend && npx jest --coverage --passWithNoTests",
+    "lint": "npm run lint --prefix backend && npm run lint --prefix frontend",
+    "format": "npm run format --prefix backend && npm run format --prefix frontend",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fleks95/motor-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/fleks95/motor-app/issues"
+  },
+  "homepage": "https://github.com/fleks95/motor-app#readme",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
+  },
+  "lint-staged": {
+    "backend/**/*.{js,json}": [
+      "npx prettier --write"
+    ],
+    "frontend/**/*.{ts,tsx,js,jsx,json}": [
+      "npx prettier --write"
+    ]
+  }
+}

@@ -10,12 +10,12 @@ const registerValidation = [
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
   body('full_name').trim().notEmpty().withMessage('Full name is required'),
-  body('username').optional().trim().isLength({ min: 3, max: 50 })
+  body('username').optional().trim().isLength({ min: 3, max: 50 }),
 ];
 
 const loginValidation = [
   body('email').isEmail().normalizeEmail(),
-  body('password').notEmpty().withMessage('Password is required')
+  body('password').notEmpty().withMessage('Password is required'),
 ];
 
 // Routes

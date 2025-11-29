@@ -14,7 +14,7 @@ A cross-platform application for discovering, planning, and sharing motorcycle r
 ```
 motoR/
 ├── backend/          # Node.js/Express API server
-├── mobile/           # React Native (Expo) - Web + Mobile
+├── frontend/         # React Native (Expo) - Web, iOS, Android
 ├── docs/             # Documentation (PRD, Architecture)
 └── README.md
 ```
@@ -36,15 +36,16 @@ cp .env.example .env
 npm run dev
 ```
 
-### Mobile/Web Setup
+### Frontend Setup
 
 ```bash
-cd mobile
+cd frontend
 npm install
 npm start
 ```
 
 Then:
+
 - Press `w` for web
 - Press `a` for Android (requires Android Studio)
 - Press `i` for iOS (requires Xcode on macOS)
@@ -52,17 +53,18 @@ Then:
 ## Development
 
 - Backend runs on `http://localhost:3000`
-- Mobile dev server runs on `http://localhost:8081`
+- Frontend dev server runs on `http://localhost:8081`
 - Web dev server runs on `http://localhost:8081`
 
 ## Deployment (Future)
 
 - Backend: Local server (24/7)
-- Mobile: App Store / Google Play
+- Frontend: App Store / Google Play (mobile) + Static hosting (web)
 - Web: Static hosting (Netlify/Vercel) or served from backend
 
 ## Documentation
 
 See `docs/` folder for:
+
 - `PRD.md` - Product Requirements Document
 - `ARCHITECTURE.md` - Technical Architecture Specification
