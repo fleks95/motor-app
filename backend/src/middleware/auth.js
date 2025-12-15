@@ -25,6 +25,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = {
       id: decoded.userId,
       email: decoded.email,
+      is_admin: decoded.isAdmin || false,
     };
 
     next();
@@ -53,4 +54,29 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+// Admin-only middleware
+const requireAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      error: {
+        code: 'UNAUTHORIZED',
+        message: 'Authentication required',
+      },
+    });
+  }
+
+  if (!req.user.is_admin) {
+    return res.status(403).json({
+      success: false,
+      error: {
+        code: 'FORBIDDEN',
+        message: 'Admin access required',
+      },
+    });
+  }
+
+  next();
+};
+
+module.exports = { authenticate: authMiddleware, requireAdmin };

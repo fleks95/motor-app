@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const supabase = require('../config/database');
+const { supabase } = require('../config/database');
 const config = require('../config/env');
 
 class AuthService {
@@ -49,7 +49,7 @@ class AuthService {
           username: username || null,
         },
       ])
-      .select('id, email, full_name, username, avatar_url, created_at')
+      .select('id, email, full_name, username, avatar_url, is_admin, created_at')
       .single();
 
     if (insertError) {
@@ -57,7 +57,7 @@ class AuthService {
     }
 
     // Generate JWT token
-    const token = this.generateToken(user.id, user.email);
+    const token = this.generateToken(user.id, user.email, user.is_admin);
 
     return {
       user: {
@@ -66,6 +66,7 @@ class AuthService {
         full_name: user.full_name,
         username: user.username,
         avatar_url: user.avatar_url,
+        is_admin: user.is_admin || false,
       },
       token,
       expiresIn: 3600, // 1 hour in seconds
@@ -76,7 +77,7 @@ class AuthService {
     // Find user by email
     const { data: user, error: selectError } = await supabase
       .from('users')
-      .select('id, email, password_hash, full_name, username, avatar_url')
+      .select('id, email, password_hash, full_name, username, avatar_url, is_admin')
       .eq('email', email)
       .single();
 
@@ -98,7 +99,7 @@ class AuthService {
     }
 
     // Generate JWT token
-    const token = this.generateToken(user.id, user.email);
+    const token = this.generateToken(user.id, user.email, user.is_admin);
 
     return {
       user: {
@@ -107,14 +108,17 @@ class AuthService {
         full_name: user.full_name,
         username: user.username,
         avatar_url: user.avatar_url,
+        is_admin: user.is_admin || false,
       },
       token,
       expiresIn: 3600, // 1 hour in seconds
     };
   }
 
-  generateToken(userId, email) {
-    return jwt.sign({ userId, email }, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+  generateToken(userId, email, isAdmin = false) {
+    return jwt.sign({ userId, email, isAdmin }, config.jwt.secret, {
+      expiresIn: config.jwt.expiresIn,
+    });
   }
 }
 

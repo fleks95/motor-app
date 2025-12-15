@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
+const routeRoutes = require('./routes/route.routes');
 const errorHandler = require('./middleware/errorHandler');
 const config = require('./config/env');
 
@@ -31,6 +32,7 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/routes', routeRoutes);
 
 // 404 handler
 app.use((req, res) => {
